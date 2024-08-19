@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    restart: no
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust # for local development, do not need password
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+
+volumes:
+  pgdata:
+    driver: local # using local driver for persistence of db data
