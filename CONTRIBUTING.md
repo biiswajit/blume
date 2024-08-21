@@ -14,6 +14,7 @@ branch are tagged into a release periodically.
 - [Node.js](https://nodejs.org/en) version 20.15.0
 - [npm package manager](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) version 10.7.0
 - [Docker](https://www.docker.com/get-started/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 - [Postgres](https://hub.docker.com/_/postgres)
 
 ### Setup
