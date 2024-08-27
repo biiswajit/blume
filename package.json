@@ -5,14 +5,17 @@
   "scripts": {
     "db:start": "sudo docker-compose up -d --remove-orphans",
     "db:stop": "sudo docker-compose down",
+    "db:migrate-dev": "npx prisma migrate dev",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.4.2",
     "@prisma/client": "^5.18.0",
     "next": "14.2.5",
+    "next-auth": "^5.0.0-beta.20",
     "react": "^18",
     "react-dom": "^18"
   },
