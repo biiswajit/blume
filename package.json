@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "db:start": "sudo docker-compose up -d --remove-orphans",
-    "db:stop": "sudo docker-compose down",
+    "db:start": " docker-compose up -d --remove-orphans",
+    "db:stop": " docker-compose down",
     "db:migrate-dev": "npx prisma migrate dev",
     "dev": "next dev",
     "build": "next build",
