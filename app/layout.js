@@ -1,4 +1,5 @@
-import "./globals.css";
+import "@/styles/globals.css";
+import { IBMPlexMono, Inter, LibreBaskerville } from "@/styles/font";
 
 export const metadata = {
   title: "Create Next App",
@@ -8,7 +9,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${Inter.variable} ${IBMPlexMono.variable} ${LibreBaskerville.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }
