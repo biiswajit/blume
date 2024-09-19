@@ -51,7 +51,13 @@ branch are tagged into a release periodically.
   npm run db:start
   ```
 
-6. Run the project
+6. Migrate database schema
+
+  ```
+  npm run db:migrate-dev
+  ```
+
+7. Run the project
 
   ```
   npm run dev
@@ -59,8 +65,20 @@ branch are tagged into a release periodically.
 
   You can see your project is running on `http://localhost:3000/` url.
 
-7. Stop postgres database running on port 5432 whenever your work is done
+8. Stop postgres database running on port 5432 whenever your work is done
 
   ```
   npm run db:stop
   ```
+
+## Folder structure
+
+| Folder | Description |
+| :----: |-------------|
+| `app` | The app router for the Next.js application, containing all code, including frontend and backend. |
+| `db` | 	This folder contains functions to connect to the database (Prisma) instance. |
+| `lib` | Library functions for this application, including functions for authentication, storage, and others. |
+| `prisma` | Contains the database schema and migrations. |
+| `public` | Contains font and image files used in this application. |
+| `styles` | This folder contains CSS code and font configurations. |
+| `ui` | Contains React components, including code for SVGs used in the application. |
