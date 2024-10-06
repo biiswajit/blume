@@ -5,7 +5,7 @@ import { signin } from "@/lib/actions";
 import { useState } from "react";
 
 export function RegisterForm() {
-  const [authMethod, setAuthMethod] = useState();
+  const [authMethod, setAuthMethod] = useState<string | undefined>();
 
   return (
     <div className="flex flex-col gap-4 bg-white-50 px-5 sm:px-14 py-14 ring-1 ring-white-100 rounded-b-xl">

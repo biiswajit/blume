@@ -1,6 +1,12 @@
 import { prisma } from "@/db/connectDb";
+import { JWT } from "next-auth/jwt";
+import { Account, Profile, User } from "next-auth";
 
-export async function signin(user, account, profile) {
+export async function signin(
+  user: User,
+  account: Account | null,
+  profile: Profile | undefined,
+) {
   if (!user.email) {
     return false;
   }
@@ -30,7 +36,11 @@ export async function signin(user, account, profile) {
   return true;
 }
 
-export async function jwt(token, user, trigger) {
+export async function jwt(
+  token: JWT,
+  user: User,
+  trigger: "update" | "signIn" | "signUp" | undefined,
+) {
   if (user) {
     token.user = user;
   }

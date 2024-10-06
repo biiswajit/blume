@@ -5,8 +5,8 @@ import { Button, Google, Github, Email } from "@/ui";
 import { useState } from "react";
 
 export function LoginForm() {
-  const [authMethod, setAuthMethod] = useState();
-  const [email, setEmail] = useState();
+  const [authMethod, setAuthMethod] = useState<string | undefined>(undefined);
+  const [email, setEmail] = useState<string | undefined>(undefined);
 
   return (
     <div className="flex flex-col gap-4 bg-white-50 px-5 sm:px-14 py-14 ring-1 ring-white-100 rounded-b-xl">
