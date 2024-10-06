@@ -1,7 +1,7 @@
 <div align="center">
 
 <picture>
-  <img alt="logo" src="">
+  <img alt="logo" src="https://github.com/user-attachments/assets/f7798efa-41b4-40ab-9de2-95be9dac8d5d">
 </picture>
 
 <h3>Open Source online classroom that doesn't sucks</h3>
