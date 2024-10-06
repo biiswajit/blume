@@ -1,4 +1,4 @@
-export function LoadingCircle({ fill }) {
+export function LoadingCircle({ fill }: { fill?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -13,20 +13,20 @@ export function LoadingCircle({ fill }) {
         fy=".3125"
         gradientTransform="scale(1.5)"
       >
-        <stop offset="0" stop-color={fill}></stop>
-        <stop offset=".3" stop-color={fill} stop-opacity=".9"></stop>
-        <stop offset=".6" stop-color={fill} stop-opacity=".6"></stop>
-        <stop offset=".8" stop-color={fill} stop-opacity=".3"></stop>
-        <stop offset="1" stop-color={fill} stop-opacity="0"></stop>
+        <stop offset="0" stopColor={fill}></stop>
+        <stop offset=".3" stopColor={fill} stopOpacity=".9"></stop>
+        <stop offset=".6" stopColor={fill} stopOpacity=".6"></stop>
+        <stop offset=".8" stopColor={fill} stopOpacity=".3"></stop>
+        <stop offset="1" stopColor={fill} stopOpacity="0"></stop>
       </radialGradient>
       <circle
         transform-origin="center"
         fill="none"
         stroke="url(#a12)"
-        stroke-width="20"
-        stroke-linecap="round"
-        stroke-dasharray="200 1000"
-        stroke-dashoffset="0"
+        strokeWidth="20"
+        strokeLinecap="round"
+        strokeDasharray="200 1000"
+        strokeDashoffset="0"
         cx="100"
         cy="100"
         r="70"
@@ -47,8 +47,8 @@ export function LoadingCircle({ fill }) {
         fill="none"
         opacity=".2"
         stroke={fill}
-        stroke-width="20"
-        stroke-linecap="round"
+        strokeWidth="20"
+        strokeLinecap="round"
         cx="100"
         cy="100"
         r="70"
