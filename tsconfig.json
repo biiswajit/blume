@@ -3,7 +3,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
     "noEmit": true,
     "incremental": true,
     "module": "esnext",
@@ -19,11 +19,11 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["*"],
-      "@/lib/*": ["lib/*"],
-      "@/ui/*": ["ui/*"],
-      "@/db/*": ["db/*"],
-      "@/styles/*": ["styles/*"]
+      "@/*": ["./src/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/ui/*": ["./src/ui/*"],
+      "@/db/*": ["./src/db/*"],
+      "@/styles/*": ["./src/styles/*"]
     }
   },
   "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
