@@ -15,7 +15,6 @@ import {
 import React from "react";
 import { features } from "@/lib/constants";
 import { ThemeToggle } from "./theme-toggle";
-import { useSession } from "next-auth/react";
 import { Button } from "@/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/ui/avatar";
 import {
@@ -26,11 +25,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/ui/dropdown-menu";
-import { Logout } from "@/app/(auth)/logout";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/ui/sheet";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/ui/accordion";
+import { Separator } from "@/ui/separator";
+import { ScrollArea } from "@/ui/scroll-area";
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 
 export function MainNav() {
   const pathname = usePathname();
-  const { data: session } = useSession();
 
   return (
     <div className="px-6 py-2 lg:px-20 hidden lg:flex justify-between border-b">
@@ -118,35 +132,93 @@ export function MainNav() {
         </Link>
       </nav>
       <nav className="flex items-center gap-2 text-sm lg:gap-4">
-        {session?.user && session.user.image ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Avatar>
-                <AvatarImage src={`${session.user.image}`} />
-                <AvatarFallback>B</AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Teaching</DropdownMenuItem>
-              <DropdownMenuItem>Enrolled</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <Logout />
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          <Button asChild>
-            <Link href="/login">Get Started</Link>
-          </Button>
-        )}
+        <Button asChild>
+          <Link href="/login">Login</Link>
+        </Button>
+        <Button asChild variant="outline">
+          <Link href="/register">Register</Link>
+        </Button>
         <ThemeToggle />
       </nav>
+    </div>
+  );
+}
+
+export function MobileNav() {
+  const pathname = usePathname();
+
+  return (
+    <div className="px-8 py-2 lg:hidden flex justify-between border-b">
+      <Link href="/" className="mr-2 flex items-center space-x-2">
+        <span className="font-display font-bold text-2xl">Blume</span>
+      </Link>
+      <Sheet>
+        <SheetTrigger>
+          <HamburgerMenuIcon className="h-5 w-5" />
+        </SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetDescription className="mt-10 text-start">
+              <ScrollArea className="h-[80vh]">
+                <div className="flex flex-col gap-4">
+                  <Button asChild>
+                    <Link href="/login">Login</Link>
+                  </Button>
+                  <Button asChild variant="outline">
+                    <Link href="/register">Register</Link>
+                  </Button>
+                </div>
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger className="hover:no-underline text-2xl font-normal">
+                      Getting started
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <Link href="/docs" className="text-xl">
+                        Introduction
+                      </Link>
+                    </AccordionContent>
+                    <AccordionContent>
+                      <Link href="/docs/tech" className="text-xl">
+                        Tech
+                      </Link>
+                    </AccordionContent>
+                    <AccordionContent>
+                      <Link href="/docs/team" className="text-xl">
+                        Team
+                      </Link>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger className="hover:no-underline text-2xl font-normal">
+                      Features
+                    </AccordionTrigger>
+                    {features.map((feature) => (
+                      <AccordionContent key={feature.title}>
+                        <Link href={feature.href} className="text-xl">
+                          {feature.title}
+                        </Link>
+                      </AccordionContent>
+                    ))}
+                  </AccordionItem>
+                </Accordion>
+                <div className="flex flex-col gap-4 mt-4">
+                  <Link href="/docs/pricing" className="text-2xl">
+                    Pricing
+                  </Link>
+                  <Link href="/docs/opensource" className="text-2xl">
+                    Open Source
+                  </Link>
+                  <Separator />
+                  <ThemeToggle />
+                </div>
+              </ScrollArea>
+            </SheetDescription>
+          </SheetHeader>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }

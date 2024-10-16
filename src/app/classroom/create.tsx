@@ -33,9 +33,7 @@ export function CreateClassroom() {
 
   return (
     <Dialog>
-      <DialogTrigger className="border bg-primary text-primary-foreground py-2 rounded-lg">
-        Create Classroom
-      </DialogTrigger>
+      <DialogTrigger>Create Classroom</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create a classroom</DialogTitle>

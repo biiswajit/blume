@@ -22,9 +22,7 @@ export function JoinClassroom() {
 
   return (
     <Dialog>
-      <DialogTrigger className="border bg-primary text-primary-foreground py-2 rounded-lg">
-        Join Classroom
-      </DialogTrigger>
+      <DialogTrigger>Join Classroom</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Join an existing classroom</DialogTitle>

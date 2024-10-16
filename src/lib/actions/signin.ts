@@ -8,9 +8,9 @@ export async function signin(
 ) {
   try {
     if (method === "resend") {
-      await signIn(method, { email: email, callbackUrl: "/" }); // TODO: redirect the user to home
+      await signIn(method, { email: email, callbackUrl: "/classroom" }); // TODO: redirect the user to home
     } else {
-      await signIn(method, { redirectTo: "/" }); // TODO: redirect the user to home
+      await signIn(method, { redirectTo: "/classroom" }); // TODO: redirect the user to home
     }
   } catch (err) {
     throw err;
