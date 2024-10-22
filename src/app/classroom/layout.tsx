@@ -1,9 +1,12 @@
 import React, { ReactNode } from "react";
+import { AppSidebar } from "@/ui/app-sidebar";
+import { SidebarProvider } from "@/ui/sidebar";
 
 export default function ClassroomLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="h-screen w-screen">
-      <div className="grid grid-cols-2 h-full">{children}</div>
-    </div>
+    <SidebarProvider>
+      <AppSidebar collapsible="icon" />
+      {children}
+    </SidebarProvider>
   );
 }

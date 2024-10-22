@@ -42,6 +42,7 @@ import {
 import { Separator } from "@/ui/separator";
 import { ScrollArea } from "@/ui/scroll-area";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { Logo } from "@/ui/logo";
 
 export function MainNav() {
   const pathname = usePathname();
@@ -49,9 +50,7 @@ export function MainNav() {
   return (
     <div className="px-6 py-2 lg:px-20 hidden lg:flex justify-between border-b">
       <nav className="flex items-center gap-2 text-sm lg:gap-4">
-        <Link href="/" className="mr-2 flex items-center space-x-2">
-          <span className="font-display font-bold text-2xl">Blume</span>
-        </Link>
+        <Logo />
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
