@@ -34,6 +34,11 @@ const data = {
       title: JoinClassroom,
       icon: LogIn,
     },
+    {
+      title: "Video Call",
+      icon: LogIn,
+      url: "/classroom/video-call",
+    },
   ],
   navSecondary: null,
 };
@@ -43,15 +48,12 @@ export function AppSidebar({ ...props }: React.ComponentType<typeof Sidebar>) {
   const { data: session } = useSession();
 
   return (
-    <Sidebar variant="floating" {...props}>
+    <Sidebar variant="sidebar" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <div className="flex justify-between">
-                {open && <Logo />}
-                <SidebarTrigger />
-              </div>
+              {open && <Logo />}
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

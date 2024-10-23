@@ -4,9 +4,10 @@ import { SidebarProvider } from "@/ui/sidebar";
 
 export default function ClassroomLayout({ children }: { children: ReactNode }) {
   return (
-    <SidebarProvider>
+    <SidebarProvider className="w-screen">
+      {/* @ts-ignore */}
       <AppSidebar collapsible="icon" />
-      {children}
+      <main className="w-full">{children}</main>
     </SidebarProvider>
   );
 }
