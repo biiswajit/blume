@@ -18,6 +18,7 @@ model User {
   sessions    Session[]
   enrollments Enrollment[]
   classrooms  Classroom[]
+  solutions   Solution[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -73,6 +74,7 @@ model Classroom {
   createdById String
 
   enrollments Enrollment[]
+  assignments Assignment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -96,6 +98,31 @@ model Enrollment {
   @@unique([classroomId, userId])
   @@index([userId])
   @@index([classroomId])
+}
+
+model Assignment {
+  id          String   @id @default(cuid())
+  name        String
+  description String?  @db.Text
+  file        String
+  dueDate     DateTime
+  createdAt   DateTime @default(now())
+  classroomId String
+
+  solutions Solution[]
+
+  classroom Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade)
+}
+
+model Solution {
+  id           String   @id @default(cuid())
+  file         String
+  createdAt    DateTime @default(now())
+  userId       String
+  assignmentId String
+
+  assignment Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Role {
