@@ -21,7 +21,8 @@ import { Button } from "@/ui/button";
 import Link from "next/link";
 import { CreateClassroom } from "@/app/classroom/create";
 import { JoinClassroom } from "@/app/classroom/join";
-import { Plus, LogIn, type LucideIcon } from "lucide-react";
+import { UploadAssignment } from "@/app/classroom/[classroomId]/uploadAssignment";
+import { Plus, LogIn, type LucideIcon, Upload } from "lucide-react";
 
 const data = {
   navMain: [
@@ -33,6 +34,10 @@ const data = {
     {
       title: JoinClassroom,
       icon: LogIn,
+    },
+    {
+      title: UploadAssignment,
+      icon: Upload,
     },
     {
       title: "Video Call",

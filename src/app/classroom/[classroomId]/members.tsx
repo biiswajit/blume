@@ -22,7 +22,7 @@ export type MemberType = {
 
 export function Members({ members }: { members: MemberType[] }) {
   return (
-    <div className="m-auto w-fit">
+    <div className="m-auto w-fit flex flex-col gap-2">
       {members.map((member: MemberType) => (
         <Card key={member.user.email}>
           <CardFooter className="flex flex-col items-stretch">
