@@ -5,9 +5,8 @@ and start contributing to the repository.
 
 ## Developing
 
-The development branch is `main`. This is the branch that all pull
-requests should be made against. The changes on the `main`
-branch are tagged into a release periodically.
+The development branch is `master`. This is the branch that all pull
+requests should be made against.
 
 ### Prerequisites
 
@@ -16,24 +15,25 @@ branch are tagged into a release periodically.
 - [Docker](https://www.docker.com/get-started/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [Postgres](https://hub.docker.com/_/postgres)
+- [Localstack](https://hub.docker.com/r/localstack/localstack)
 
 ### Setup
 
-1. Clone the repository from [Github](https://github.com/biiswajit/kgec/fork)
+1. Clone the repository from [Github](https://github.com/biiswajit/blume/fork)
 
   ```
-  git clone https://github.com/<github_username>/kgec.git
+  git clone https://github.com/<your_github_username>/blume.git
   ```
 
 2. Navigate to the project folder
 
   ```
-  cd kgec
+  cd blume
   ```
 
 3. Ensure you are on the correct version of Node.js (20.15.0). If you are using `nvm`, there is an `.nvmrc` file that will automatically select the correct version of Node.js when you navigate to the repository.
 
-4. Install dependencies of kgec project
+4. Install dependencies of blume project
 
   ```
   npm install
@@ -50,6 +50,15 @@ branch are tagged into a release periodically.
   ```
   npm run db:start
   ```
+
+> Note: If you're on Windows system then remove the `sudo` command of `db:start` and `db:stop` script from `package.json` file.
+
+> Note: You must have docker running. If it is not then run `sudo systemctl start docker` to start docker.
+
+> If you want to authenticate yourself using Github then follow [this guide](https://authjs.dev/guides/configuring-github#registering-your-app) to register your app on Github.
+  Once registered get the `Client Id` and `Client Secret` environment variables from Github.
+  Once you get the variables then you need to add then to your `.env` file.
+  Once again: Follow the `Registering your App` section from [this guide](https://authjs.dev/guides/configuring-github#registering-your-app) to get step by step guide
 
 6. Migrate database schema
 
@@ -75,6 +84,8 @@ branch are tagged into a release periodically.
 
 | Folder | Description |
 | :----: |-------------|
+| `src` | This is the root directory for all the nextjs codes. |
+| `hooks` | ShadCN UI using this folder to store frontend hooks. |
 | `app` | The app router for the Next.js application, containing all code, including frontend and backend. |
 | `db` | 	This folder contains functions to connect to the database (Prisma) instance. |
 | `lib` | Library functions for this application, including functions for authentication, storage, and others. |
