@@ -1,9 +1,16 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Card, CardDescription } from "@/ui/card";
-import { Badge } from "@/ui/badge";
 import { parseDate } from "@/lib/functions";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/ui/table";
 
 export type Assignment = {
   name: string;
@@ -34,28 +41,30 @@ export function Assignments({ classroomId }: { classroomId: string }) {
   }
 
   return (
-    <div className="m-auto w-fit flex flex-col gap-2">
-      {assignments.map((file: Assignment) => (
-        <Link
-          key={file.id}
-          href={`/classroom/${classroomId}/assignment/${file.id}`}
-        >
-          <Card className="px-4 py-2">
-            <span className="flex flex-col gap-2  items-stretch">
-              <span className="flex gap-4 justify-between">
-                {file.name}
-                <Badge variant="outline" className="self-end">
-                  {parseDate(file.createdAt)}
-                </Badge>
-              </span>
-              <CardDescription className="">
-                Assignment submit by &nbsp; &nbsp;
-                <Badge>{parseDate(file.dueDate)}</Badge>
-              </CardDescription>
-            </span>
-          </Card>
-        </Link>
-      ))}
-    </div>
+    <Table>
+      <TableCaption>List of assignments</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Name</TableHead>
+          <TableHead>Description</TableHead>
+          <TableHead>Upload date</TableHead>
+          <TableHead>Due date</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {assignments.map((file: Assignment) => (
+          <TableRow key={file.id}>
+            <TableCell className="font-medium text-left">{file.name}</TableCell>
+            <TableCell className="text-left">{file.description}</TableCell>
+            <TableCell className="text-left">
+              {parseDate(file.createdAt)}
+            </TableCell>
+            <TableCell className="text-left">
+              {parseDate(file.dueDate)}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }
