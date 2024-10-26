@@ -17,3 +17,16 @@ export const assignmentSchema = z.object({
   classroomId: z.string(),
   dueDate: z.string().date(),
 });
+
+export const solutionSchema = z.object({
+  userId: z.string(),
+  assignmentId: z.string(),
+  file: z
+    .instanceof(File)
+    .refine((file) => {
+      return !file || file.size <= MAX_UPLOAD_SIZE;
+    }, "File size must be less than 10MB")
+    .refine((file) => {
+      return ACCEPTED_FILE_TYPES.includes(file.type);
+    }, "File must be a PDF or DOC"),
+});
