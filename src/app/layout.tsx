@@ -2,8 +2,7 @@ import "@/styles/globals.css";
 import { Inter, Lato, PlayfairDisplay } from "@/styles/font";
 import { Toaster } from "@/ui/toaster";
 import { ReactNode } from "react";
-import { ThemeProvider } from "@/ui/theme-provider";
-import { SessionProvider } from "next-auth/react";
+import Providers from "./providers";
 
 export const metadata = {
   title: "Create Next App",
@@ -16,14 +15,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body
         className={`${Inter.variable} ${Lato.variable} ${PlayfairDisplay.variable}`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <SessionProvider>{children}</SessionProvider>
-        </ThemeProvider>
+        <Providers>{children}</Providers>
         <Toaster />
       </body>
     </html>
