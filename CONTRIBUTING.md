@@ -66,7 +66,31 @@ requests should be made against.
   npm run db:migrate-dev
   ```
 
-7. Run the project
+7. Create AWS S3 buckets
+
+  - View all running docker containers
+    ```
+    sudo docker ps
+    ```
+
+  - Find the container with the name `localstack/localstack` and copy the container id then run
+    ```
+    sudo docker exec -it <container_id> bash
+    ```
+
+  - Now inside the container switch the user to `localstack` by running
+    ```
+    su - localstack
+    ```
+
+  - Now create the buckets by running all these commands sequentially
+    ```
+    awslocal s3api create-bucket --bucket /assignments
+    awslocal s3api create-bucket --bucket /solutions
+    awslocal s3api create-bucket --bucket /discussions
+    ```
+
+8. Run the project
 
   ```
   npm run dev
@@ -74,7 +98,7 @@ requests should be made against.
 
   You can see your project is running on `http://localhost:3000/` url.
 
-8. Stop postgres database running on port 5432 whenever your work is done
+9. Stop postgres database running on port 5432 whenever your work is done
 
   ```
   npm run db:stop
@@ -93,3 +117,12 @@ requests should be made against.
 | `public` | Contains font and image files used in this application. |
 | `styles` | This folder contains CSS code and font configurations. |
 | `ui` | Contains React components, including code for SVGs used in the application. |
+
+
+## AWS S3 bucket structure (not optimized yet)
+
+```
+|---discussions/
+|---assignments/
+|---solutions/
+```

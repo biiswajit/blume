@@ -14,11 +14,14 @@ model User {
   emailVerified DateTime?
   image         String?
 
-  accounts    Account[]
-  sessions    Session[]
-  enrollments Enrollment[]
-  classrooms  Classroom[]
-  solutions   Solution[]
+  accounts       Account[]
+  sessions       Session[]
+  enrollments    Enrollment[]
+  classrooms     Classroom[]
+  solutions      Solution[]
+  discussions    Discussion[]
+  participations Participation[]
+  messages       Message[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -75,6 +78,7 @@ model Classroom {
 
   enrollments Enrollment[]
   assignments Assignment[]
+  discussions Discussion[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -123,6 +127,54 @@ model Solution {
 
   assignment Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Discussion {
+  id          String   @id @default(cuid())
+  name        String
+  classroomId String
+  createdById String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  code        String   @unique
+
+  classroom Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade)
+  createdBy User      @relation(fields: [createdById], references: [id], onDelete: Cascade)
+
+  participations Participation[]
+  messages       Message[]
+
+  @@index([code])
+}
+
+model Participation {
+  id           String   @id @default(cuid())
+  discussionId String
+  userId       String
+  joinedAt     DateTime @default(now())
+  role         Role
+
+  discussion Discussion @relation(fields: [discussionId], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([discussionId, userId])
+  @@index([userId])
+  @@index([discussionId])
+}
+
+model Message {
+  id           String   @id @default(cuid())
+  content      String?  @db.Text
+  file         String?
+  createdAt    DateTime @default(now())
+  userId       String
+  discussionId String
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  discussion Discussion @relation(fields: [discussionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, discussionId])
+  @@index([discussionId])
 }
 
 enum Role {
