@@ -27,7 +27,7 @@ export async function uploadSolution(formData: FormData) {
     return { success: false, message: "Invalid assignment data provided" };
   }
 
-  const fileKey = `${uuidv4()}-${file.name}`;
+  const fileKey = uuidv4();
   const buffer = Buffer.from(await file.arrayBuffer());
 
   try {
