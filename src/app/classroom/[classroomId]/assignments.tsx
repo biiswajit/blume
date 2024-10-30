@@ -26,6 +26,7 @@ import { Upload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { uploadSolution } from "@/lib/actions";
 import { ScrollArea } from "@/ui/scroll-area";
+import { FileUpload } from "@/ui/file-upload";
 
 type User = {
   name: string;
@@ -198,21 +199,13 @@ export function Assignments({ classroomId }: { classroomId: string }) {
                           </div>
                         ) : (
                           <form onSubmit={handleSubmit}>
-                            <span>
-                              <Input
-                                type="file"
-                                accept=".pdf, .doc"
-                                onChange={(e) => {
-                                  if (
-                                    e.target.files &&
-                                    e.target.files.length > 0
-                                  ) {
-                                    setFile(e.target.files[0]);
-                                  }
-                                }}
-                                required
-                              />
-                            </span>
+                            <FileUpload
+                              accept=".pdf"
+                              onChange={(f: File) => {
+                                setFile(f);
+                              }}
+                            />
+
                             <Button type="submit">
                               <Upload />
                               Upload

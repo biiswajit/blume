@@ -21,6 +21,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
 import { uploadAssignment } from "@/lib/actions";
 import { assignmentType } from "@/lib/zod/types";
 import { assignmentSchema } from "@/lib/zod/schemas";
+import { FileUpload } from "@/ui/file-upload";
 
 export function UploadAssignment({ classroomId }: { classroomId: string }) {
   const [name, setName] = useState("");
@@ -119,15 +120,11 @@ export function UploadAssignment({ classroomId }: { classroomId: string }) {
               </span>
               <span>
                 <Label htmlFor="file">Picture</Label>
-                <Input
-                  type="file"
+                <FileUpload
                   accept=".pdf, .doc"
-                  onChange={(e) => {
-                    if (e.target.files && e.target.files.length > 0) {
-                      setFile(e.target.files[0]);
-                    }
+                  onChange={(file: File) => {
+                    setFile(file);
                   }}
-                  required
                 />
               </span>
               <Button type="submit">
