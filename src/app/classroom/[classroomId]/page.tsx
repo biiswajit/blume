@@ -10,6 +10,7 @@ import { Button } from "@/ui/button";
 import { StartDiscussion } from "./startDiscussion";
 import { JoinDiscussion } from "./joinDiscussion";
 import { JoinClassroom } from "../join";
+import { Discussions } from "./discussions";
 
 export type ClassroomType = {
   name: string;
@@ -90,6 +91,7 @@ export default function ClassroomPage({
           <TabsContent value="discussions">
             <StartDiscussion classroomId={params.classroomId} />
             <JoinDiscussion classroomId={params.classroomId} />
+            <Discussions classroomId={params.classroomId} />
           </TabsContent>
         </Tabs>
       </div>

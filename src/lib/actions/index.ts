@@ -5,3 +5,4 @@ export * from "./uploadAssignment";
 export * from "./uploadSolution";
 export * from "./startDiscussion";
 export * from "./joinDiscussion";
+export * from "./fetchDiscussions";
