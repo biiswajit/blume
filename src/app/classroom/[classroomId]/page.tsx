@@ -7,6 +7,7 @@ import { UploadAssignment } from "./uploadAssignment";
 import { Assignments } from "./assignments";
 import { Upload } from "lucide-react";
 import { Button } from "@/ui/button";
+import { StartDiscussion } from "./startDiscussion";
 
 export type ClassroomType = {
   name: string;
@@ -69,6 +70,7 @@ export default function ClassroomPage({
             <TabsTrigger value="notes">Notes</TabsTrigger>
             <TabsTrigger value="assignments">Assignments</TabsTrigger>
             <TabsTrigger value="friends">Members</TabsTrigger>
+            <TabsTrigger value="discussions">Discussions</TabsTrigger>
           </TabsList>
           <TabsContent value="announcements">Announcements</TabsContent>
           <TabsContent value="notes">Notes</TabsContent>
@@ -81,6 +83,9 @@ export default function ClassroomPage({
           </TabsContent>
           <TabsContent value="friends">
             <Members members={classroom.enrollments} />
+          </TabsContent>
+          <TabsContent value="discussions">
+            <StartDiscussion classroomId={params.classroomId} />
           </TabsContent>
         </Tabs>
       </div>
