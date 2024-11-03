@@ -1,4 +1,4 @@
-# Contributing to Kgec
+# Contributing to Blume
 
 This guide will help you setup the project locally
 and start contributing to the repository.
@@ -90,7 +90,33 @@ requests should be made against.
     awslocal s3api create-bucket --bucket /discussions
     ```
 
-8. Run the project
+8. Clone the [blume-chat](https://github.com/biiswajit/blume-chat/fork) repository
+
+> `Blume-chat` is a express project for the websocket backend for the primary application `blume`
+
+  ```
+  git clone https://github.com/<your_github_username>/blume-chat.git
+  ```
+
+9. Navigate to `blume-chat` folder and install dependencies
+
+  ```
+  cd blume-chat && npm install
+  ```
+
+10. Build the `blume-chat` project
+
+  ```
+  tsc -b
+  ```
+
+11. Run the `blume-chat` project
+
+  ```
+  node dist/index.js
+  ```
+
+12. Navigate to `blume` folder and then run the `blume` project
 
   ```
   npm run dev
@@ -98,7 +124,7 @@ requests should be made against.
 
   You can see your project is running on `http://localhost:3000/` url.
 
-9. Stop postgres database running on port 5432 whenever your work is done
+13. Stop postgres database running on port 5432 whenever your work is done
 
   ```
   npm run db:stop
