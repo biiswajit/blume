@@ -6,3 +6,5 @@ export * from "./uploadSolution";
 export * from "./startDiscussion";
 export * from "./joinDiscussion";
 export * from "./fetchDiscussions";
+export * from "./fetchPreviousChats";
+export * from "./sendChat";

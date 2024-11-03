@@ -1,16 +1,16 @@
 "use client";
-export function sendJoinDiscussionMessage(
+export function sendTextMessage(
   ws: WebSocket,
   userId: string,
   discussionId: string,
-  userName: string,
+  message: string,
 ) {
   const msg = {
-    type: "JOIN_DISCUSSION",
+    type: "TEXT_MESSAGE",
     payload: {
       userId,
       discussionId,
-      userName,
+      message,
     },
   };
 

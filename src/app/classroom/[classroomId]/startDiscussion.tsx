@@ -9,10 +9,11 @@ import RedisClient from "@/db/connectCache";
 import { startDiscussion } from "@/lib/actions/startDiscussion";
 import { FormEvent } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useSocket } from "@/store";
 
 export function StartDiscussion({ classroomId }: { classroomId: string }) {
   const { toast } = useToast();
-
+  const { addConnection } = useSocket();
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     e.stopPropagation();
@@ -24,9 +25,14 @@ export function StartDiscussion({ classroomId }: { classroomId: string }) {
       discussionName,
       classroomId,
     );
+    if (success && message?.discussionId && message.conn) {
+      addConnection(message.discussionId, JSON.parse(message.conn));
+    }
     toast({
       title: success ? "Success!" : "Error!",
-      description: message,
+      description: success
+        ? "successfully created new discussion"
+        : "unable to create a new discussion",
       variant: success ? "default" : "destructive",
     });
   }

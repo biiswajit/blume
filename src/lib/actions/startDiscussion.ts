@@ -9,7 +9,10 @@ import { sendJoinDiscussionMessage } from "@/lib/functions";
 export async function startDiscussion(
   discussionName: string,
   classroomId: string,
-) {
+): Promise<{
+  success: boolean;
+  message: { discussionId: string; conn: string | null } | null;
+}> {
   const session = await auth();
   if (!session || !session.user) {
     redirect("/login");
@@ -33,7 +36,7 @@ export async function startDiscussion(
 
   if (!info) {
     console.error("can not find entry in db");
-    return { success: false, message: "you're not enrolled" };
+    return { success: false, message: null };
   }
 
   const userRole = info?.role;
@@ -56,7 +59,7 @@ export async function startDiscussion(
   });
   if (!cacheRes || cacheRes <= 0) {
     console.error("error adding to redis");
-    return { success: false, message: "unable to add session on redis" };
+    return { success: false, message: null };
   }
 
   try {
@@ -77,7 +80,7 @@ export async function startDiscussion(
       console.log("no its not a success");
       return {
         success: false,
-        message: "got error from chat backend see logs",
+        message: null,
       };
     }
 
@@ -91,14 +94,15 @@ export async function startDiscussion(
       );
     }
     console.log(data.message);
+    return {
+      success: true,
+      message: { discussionId: data.message, conn: JSON.stringify(ws) },
+    };
   } catch (err) {
     console.error("unable to fetch info from server", err);
     return {
       success: false,
-      message:
-        "either error on chat http endpoint or error connecting with websocket",
+      message: null,
     };
   }
-
-  return { success: true, message: "you are connected" };
 }

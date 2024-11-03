@@ -4,10 +4,11 @@ import { EnterIcon } from "@radix-ui/react-icons";
 import { FormEvent } from "react";
 import { joinDiscussion } from "@/lib/actions";
 import { useToast } from "@/hooks/use-toast";
+import { useSocket } from "@/store";
 
 export function JoinDiscussion({ classroomId }: { classroomId: string }) {
   const { toast } = useToast();
-
+  const { addConnection } = useSocket();
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     e.stopPropagation();
@@ -18,9 +19,14 @@ export function JoinDiscussion({ classroomId }: { classroomId: string }) {
       discussionCode,
       classroomId,
     );
+    if (success && message?.discussionId && message.conn) {
+      addConnection(message?.discussionId, JSON.parse(message.conn));
+    }
     toast({
       title: success ? "Success!" : "Error!",
-      description: message,
+      description: success
+        ? "you're successfully joind to the discussion"
+        : "unable to join you in",
       variant: success ? "default" : "destructive",
     });
   }
