@@ -8,6 +8,8 @@ import { Assignments } from "./assignments";
 import { Upload } from "lucide-react";
 import { Button } from "@/ui/button";
 import { StartDiscussion } from "./startDiscussion";
+import { JoinDiscussion } from "./joinDiscussion";
+import { JoinClassroom } from "../join";
 
 export type ClassroomType = {
   name: string;
@@ -64,6 +66,7 @@ export default function ClassroomPage({
         <span className="text-xl">{classroom.name}</span>
       </header>
       <div className="h-full p-4">
+        {classroom.code}
         <Tabs defaultValue="account" className="w-full text-center">
           <TabsList>
             <TabsTrigger value="announcements">Announcements</TabsTrigger>
@@ -86,6 +89,7 @@ export default function ClassroomPage({
           </TabsContent>
           <TabsContent value="discussions">
             <StartDiscussion classroomId={params.classroomId} />
+            <JoinDiscussion classroomId={params.classroomId} />
           </TabsContent>
         </Tabs>
       </div>
