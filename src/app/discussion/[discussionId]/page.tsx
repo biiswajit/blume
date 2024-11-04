@@ -5,6 +5,7 @@ import { Chats } from "./chats";
 import { Write } from "./write";
 import { useSession } from "next-auth/react";
 import { sendJoinDiscussionMessage } from "@/lib/functions";
+import { fetchPreviousChats, Chat } from "@/lib/actions";
 
 export default function DiscussionPage({
   params,
@@ -31,25 +32,31 @@ export default function DiscussionPage({
     };
   }, []);
 
+  if (!ws) {
+    return <div>Connecting to websocket server</div>;
+  }
+
   return (
     <div className="h-screen flex flex-col">
       <header className="p-4 flex items-center gap-4">
         <SidebarTrigger />
         <span className="text-xl">Discussion:{params.discussionId}</span>
       </header>
-      <div className="h-full flex flex-col md:flex-row md:flex-wrap content-start gap-4 p-4 overflow-y-auto">
-        {ws ? (
-          <>
-            <Chats discussionId={params.discussionId} ws={ws} />
-            <Write
-              discussionId={params.discussionId}
-              ws={ws}
-              userId={session?.user?.id}
-            />
-          </>
-        ) : (
-          <>Connecting to websocket server..</>
-        )}
+      <div className="h-full flex flex-col gap-5 py-4 px-5">
+        <div className="w-full h-full">
+          <Chats
+            discussionId={params.discussionId}
+            ws={ws}
+            userId={session?.user?.id as string}
+          />
+        </div>
+        <div className="h-fit">
+          <Write
+            discussionId={params.discussionId}
+            ws={ws}
+            userId={session?.user?.id}
+          />
+        </div>
       </div>
     </div>
   );

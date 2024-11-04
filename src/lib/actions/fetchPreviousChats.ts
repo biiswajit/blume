@@ -3,12 +3,13 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 export type Chat = {
-  id: string;
+  chatId: string;
   message: string;
-  discussionId: string;
-  userName: string;
   userId: string;
-  upvotes: number;
+  userName: string;
+  upvotes: string;
+  sentAt: string;
+  discussionId: string;
 };
 
 export async function fetchPreviousChats(
