@@ -22,6 +22,13 @@ export function Chats({
   const chatEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    async function init() {
+      const data = await fetchPreviousChats(discussionId);
+      if (data.message) setChats(data.message);
+    }
+
+    init();
+
     ws.onmessage = (message) => {
       if (message.data) {
         console.log(message.data);

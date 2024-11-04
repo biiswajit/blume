@@ -1,6 +1,7 @@
 "use server";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { prisma } from "@/db/connectDb";
 
 export type Chat = {
   chatId: string;
@@ -20,25 +21,36 @@ export async function fetchPreviousChats(
     redirect("/login");
   }
 
-  try {
-    const res = await fetch(`${process.env.BLUME_CHAT_URL_HTTP}/chats`, {
-      method: "POST",
-      headers: {
-        discussionId,
+  const chats = await prisma.message.findMany({
+    where: {
+      discussionId,
+    },
+    select: {
+      id: true,
+      content: true,
+      createdAt: true,
+      userId: true,
+      discussionId: true,
+      user: {
+        select: {
+          name: true,
+        },
       },
+    },
+  });
+
+  const temp: Chat[] = [];
+  chats.forEach((chat) => {
+    temp.push({
+      chatId: chat.id,
+      message: chat.content as string,
+      userId: chat.userId,
+      userName: chat.user.name as string,
+      upvotes: "0",
+      sentAt: chat.createdAt.toString(),
+      discussionId,
     });
+  });
 
-    if (!res.ok) {
-      return { success: false, message: null };
-    }
-
-    const data = await res.json();
-    return { success: true, message: data.message };
-  } catch (err) {
-    console.error("there is an error: ", err);
-    return {
-      success: false,
-      message: null,
-    };
-  }
+  return { success: true, message: temp };
 }
