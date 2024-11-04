@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { fetchPreviousChats, Chat } from "@/lib/actions";
 import { useToast } from "@/hooks/use-toast";
 import { Write } from "./write";
@@ -19,6 +19,7 @@ export function Chats({
 }) {
   const { toast } = useToast();
   const [chats, setChats] = useState<Chat[]>([]);
+  const chatEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     ws.onmessage = (message) => {
@@ -30,16 +31,21 @@ export function Chats({
     };
   }, []);
 
+  useEffect(() => {
+    // Scroll to the bottom whenever `chats` updates
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chats]);
+
   if (!chats) {
     return <div>No previous chats</div>;
   }
 
   return (
-    <ScrollArea className="h-full w-full rounded-md border p-4">
+    <ScrollArea className="h-full w-full rounded-md border py-4 px-6">
       {chats.map((chat) => (
         <div
           key={chat.chatId}
-          className={`max-w-[500px] w-fit border flex flex-col gap-1 py-1 px-4 mt-2 rounded-md ${userId === chat.userId && "justify-self-end"}`}
+          className={`max-w-[500px] w-fit border flex flex-col gap-1 py-1 px-4 mt-2 rounded-md ${chat.userId === userId ? "justify-self-end" : "justify-self-start"}`}
         >
           <div className="w-full font-semibold">{chat.message}</div>
           <div className="flex justify-between w-full font-light text-sm opacity-70 gap-5">
@@ -51,6 +57,8 @@ export function Chats({
           </div>
         </div>
       ))}
+      {/* Empty div to mark the end of chat */}
+      <div ref={chatEndRef} />
     </ScrollArea>
   );
 }

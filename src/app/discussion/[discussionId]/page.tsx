@@ -42,8 +42,8 @@ export default function DiscussionPage({
         <SidebarTrigger />
         <span className="text-xl">Discussion:{params.discussionId}</span>
       </header>
-      <div className="h-full flex flex-col gap-5 py-4 px-5">
-        <div className="w-full h-full">
+      <div className="h-[90%] flex flex-col gap-5 py-4 px-5">
+        <div className="w-full h-full overflow-y-hidden">
           <Chats
             discussionId={params.discussionId}
             ws={ws}
