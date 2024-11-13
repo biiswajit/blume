@@ -11,9 +11,11 @@ import {
 import { useState, useEffect } from "react";
 import { fetchDiscussions, Discussion } from "@/lib/actions";
 import Link from "next/link";
+import { DiscussionAtom } from "@/store";
+import { useAtom } from "jotai";
 
 export function Discussions({ classroomId }: { classroomId: string }) {
-  const [discussions, setDiscussions] = useState<Discussion[]>();
+  const [discussions, setDiscussions] = useAtom(DiscussionAtom);
   useEffect(() => {
     async function helper() {
       const data = await fetchDiscussions(classroomId);
