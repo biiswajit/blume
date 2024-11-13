@@ -29,6 +29,7 @@ import { ScrollArea } from "@/ui/scroll-area";
 import { FileUpload } from "@/ui/file-upload";
 import { useAtom } from "jotai";
 import { AssignmentsAtom, AssignmentType } from "@/store";
+import Image from "next/image";
 
 type User = {
   name: string;
@@ -108,7 +109,10 @@ export function Assignments({ classroomId }: { classroomId: string }) {
   }, []);
 
   if (!assignments) {
-    return <span>Loading...</span>;
+    return <div className="h-screen grid place-content-center">
+      <Image src={"/images/loading.svg"} alt="goto login" width={400} height={400}/>
+      <p>You are not logged in, please login to access the application</p>
+    </div>
   }
 
   return (

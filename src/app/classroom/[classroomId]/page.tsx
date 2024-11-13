@@ -11,6 +11,7 @@ import { StartDiscussion } from "./startDiscussion";
 import { JoinDiscussion } from "./joinDiscussion";
 import { JoinClassroom } from "../join";
 import { Discussions } from "./discussions";
+import Image from "next/image";
 
 export type ClassroomType = {
   name: string;
@@ -57,7 +58,10 @@ export default function ClassroomPage({
   }, []);
 
   if (!classroom) {
-    return "Loading...";
+    return <div className="h-screen grid place-content-center">
+      <Image src={"/images/loading.svg"} alt="goto login" width={400} height={400}/>
+      <p>Loding, please wait...</p>
+    </div>
   }
 
   return (

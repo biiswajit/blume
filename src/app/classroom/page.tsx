@@ -42,7 +42,10 @@ export default function AllClassroomsPage() {
         <span className="text-xl">Classrooms</span>
       </header>
       <div className="h-full flex flex-col md:flex-row md:flex-wrap content-start gap-4 p-4 overflow-y-auto">
-        {loading && <span>Loading...</span>}
+        {loading && <div className="h-screen grid place-content-center">
+          <Image src={"/images/loading.svg"} alt="goto login" width={400} height={400}/>
+          <p>Loading, please wait...</p>
+        </div>}
         {classrooms.map((room: Classroom) => (
           <Link
             key={room.classroom.id}
