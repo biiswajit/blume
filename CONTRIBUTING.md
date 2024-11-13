@@ -85,9 +85,9 @@ requests should be made against.
 
   - Now create the buckets by running all these commands sequentially
     ```
-    awslocal s3api create-bucket --bucket /assignments
-    awslocal s3api create-bucket --bucket /solutions
-    awslocal s3api create-bucket --bucket /discussions
+    awslocal s3api create-bucket --bucket assignments
+    awslocal s3api create-bucket --bucket solutions
+    awslocal s3api create-bucket --bucket discussions
     ```
 
 8. Clone the [blume-chat](https://github.com/biiswajit/blume-chat/fork) repository
