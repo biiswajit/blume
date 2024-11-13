@@ -3,6 +3,8 @@ import { SidebarTrigger } from "@/ui/sidebar";
 import { ClassroomCard } from "./card";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 export type Classroom = {
   classroom: {
@@ -21,6 +23,7 @@ export type Classroom = {
 };
 
 export default function AllClassroomsPage() {
+  const { data: session } = useSession()
   const [classrooms, setClassrooms] = useState<Classroom[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -38,6 +41,13 @@ export default function AllClassroomsPage() {
 
     fetchClassrooms();
   }, []);
+
+  if (!session || !session?.user) {
+    return <div className="h-screen grid place-content-center">
+      <Image src={"/images/gotologin.svg"} alt="goto login" width={400} height={400}/>
+      <p>You are logged in, please login to access the application</p>
+    </div>
+  }
 
   return (
     <div className="h-screen flex flex-col">
