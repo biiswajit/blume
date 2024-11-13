@@ -5,26 +5,12 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-
-export type Classroom = {
-  classroom: {
-    id: string;
-    name: string;
-    description?: string;
-    themeColor: string;
-    createdBy: {
-      name: string;
-      image: string;
-    };
-    createdAt: string;
-  };
-  joinedAt: string;
-  role: string;
-};
+import { classroomsAtom, Classroom } from "@/store";
+import { useAtom } from "jotai";
 
 export default function AllClassroomsPage() {
   const { data: session } = useSession()
-  const [classrooms, setClassrooms] = useState<Classroom[]>([]);
+  const [classrooms, setClassrooms] = useAtom(classroomsAtom);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -45,7 +31,7 @@ export default function AllClassroomsPage() {
   if (!session || !session?.user) {
     return <div className="h-screen grid place-content-center">
       <Image src={"/images/gotologin.svg"} alt="goto login" width={400} height={400}/>
-      <p>You are logged in, please login to access the application</p>
+      <p>You are not logged in, please login to access the application</p>
     </div>
   }
 
