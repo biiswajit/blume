@@ -22,6 +22,8 @@ import { uploadAssignment } from "@/lib/actions";
 import { assignmentType } from "@/lib/zod/types";
 import { assignmentSchema } from "@/lib/zod/schemas";
 import { FileUpload } from "@/ui/file-upload";
+import { AssignmentType, AssignmentsAtom } from "@/store";
+import { useAtom } from "jotai";
 
 export function UploadAssignment({ classroomId }: { classroomId: string }) {
   const [name, setName] = useState("");
@@ -29,6 +31,7 @@ export function UploadAssignment({ classroomId }: { classroomId: string }) {
   const [file, setFile] = useState<File | null>(null);
   const [date, setDate] = useState<Date>();
   const { toast } = useToast();
+  const [assignments, setAssignments] = useAtom(AssignmentsAtom);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -50,6 +53,15 @@ export function UploadAssignment({ classroomId }: { classroomId: string }) {
       if (description) formData.append("description", description);
 
       const res = await uploadAssignment(formData);
+
+      if (res.success) {
+        const response = await fetch(`/api/assignment/all?classroomId=${classroomId}`);
+        if (!response.ok) {
+          console.log(response);
+        }
+        const data = await response.json();
+        setAssignments(data);
+      }
 
       toast({
         title: res.success ? "Success!" : "Error!",

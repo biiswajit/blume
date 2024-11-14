@@ -4,11 +4,15 @@ import { EnterIcon } from "@radix-ui/react-icons";
 import { FormEvent } from "react";
 import { joinDiscussion } from "@/lib/actions";
 import { useToast } from "@/hooks/use-toast";
-import { useSocket } from "@/store";
+import { useSocket, DiscussionAtom } from "@/store";
+import { useAtom } from "jotai";
+import { fetchDiscussions, Discussion } from "@/lib/actions";
 
 export function JoinDiscussion({ classroomId }: { classroomId: string }) {
   const { toast } = useToast();
   const { addConnection } = useSocket();
+  const [discussions, setDiscussions] = useAtom(DiscussionAtom);
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     e.stopPropagation();
@@ -19,6 +23,12 @@ export function JoinDiscussion({ classroomId }: { classroomId: string }) {
       discussionCode,
       classroomId,
     );
+
+    if (success) {
+      const data = await fetchDiscussions(classroomId);
+      setDiscussions(data);
+    }
+
     if (success && message?.discussionId && message.conn) {
       addConnection(message?.discussionId, JSON.parse(message.conn));
     }

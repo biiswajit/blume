@@ -27,6 +27,9 @@ import { useToast } from "@/hooks/use-toast";
 import { uploadSolution } from "@/lib/actions";
 import { ScrollArea } from "@/ui/scroll-area";
 import { FileUpload } from "@/ui/file-upload";
+import { useAtom } from "jotai";
+import { AssignmentsAtom, AssignmentType } from "@/store";
+import Image from "next/image";
 
 type User = {
   name: string;
@@ -51,16 +54,8 @@ export type Assignment = {
   ];
 };
 
-export type Assignments = {
-  name: string;
-  description?: string;
-  dueDate: string;
-  id: string;
-  createdAt: string;
-};
-
 export function Assignments({ classroomId }: { classroomId: string }) {
-  const [assignments, setAssignments] = useState<Assignments[]>();
+  const [assignments, setAssignments] = useAtom(AssignmentsAtom);
   const [assignment, setAssignment] = useState<Assignment>();
   const [file, setFile] = useState<File | null>(null);
   const [assignmentId, setAssignmentId] = useState<string>("");
@@ -114,7 +109,10 @@ export function Assignments({ classroomId }: { classroomId: string }) {
   }, []);
 
   if (!assignments) {
-    return <span>Loading...</span>;
+    return <div className="h-screen grid place-content-center">
+      <Image src={"/images/loading.svg"} alt="goto login" width={400} height={400}/>
+      <p>You are not logged in, please login to access the application</p>
+    </div>
   }
 
   return (
@@ -130,7 +128,7 @@ export function Assignments({ classroomId }: { classroomId: string }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {assignments.map((file: Assignments) => (
+        {assignments.map((file: AssignmentType) => (
           <TableRow key={file.id}>
             <TableCell className="font-medium text-left">{file.name}</TableCell>
             <TableCell className="text-left">{file.description}</TableCell>

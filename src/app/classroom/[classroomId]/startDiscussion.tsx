@@ -9,11 +9,15 @@ import RedisClient from "@/db/connectCache";
 import { startDiscussion } from "@/lib/actions/startDiscussion";
 import { FormEvent } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { useSocket } from "@/store";
+import { useSocket, DiscussionAtom } from "@/store";
+import { useAtom } from "jotai";
+import { fetchDiscussions, Discussion } from "@/lib/actions";
 
 export function StartDiscussion({ classroomId }: { classroomId: string }) {
   const { toast } = useToast();
   const { addConnection } = useSocket();
+  const [discussions, setDiscussions] = useAtom(DiscussionAtom);
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     e.stopPropagation();
@@ -25,6 +29,12 @@ export function StartDiscussion({ classroomId }: { classroomId: string }) {
       discussionName,
       classroomId,
     );
+
+    if (success) {
+      const data = await fetchDiscussions(classroomId);
+      setDiscussions(data);
+    }
+
     if (success && message?.discussionId && message.conn) {
       addConnection(message.discussionId, JSON.parse(message.conn));
     }

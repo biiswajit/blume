@@ -11,9 +11,12 @@ import {
 import { useState, useEffect } from "react";
 import { fetchDiscussions, Discussion } from "@/lib/actions";
 import Link from "next/link";
+import { DiscussionAtom } from "@/store";
+import { useAtom } from "jotai";
+import Image from "next/image";
 
 export function Discussions({ classroomId }: { classroomId: string }) {
-  const [discussions, setDiscussions] = useState<Discussion[]>();
+  const [discussions, setDiscussions] = useAtom(DiscussionAtom);
   useEffect(() => {
     async function helper() {
       const data = await fetchDiscussions(classroomId);
@@ -24,7 +27,10 @@ export function Discussions({ classroomId }: { classroomId: string }) {
   }, []);
 
   if (!discussions) {
-    return <div>Loading...</div>;
+    return <div className="h-screen grid place-content-center">
+      <Image src={"/images/loading.svg"} alt="goto login" width={400} height={400}/>
+      <p>Loafing, please wait...</p>
+    </div>
   }
 
   return (

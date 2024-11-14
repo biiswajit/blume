@@ -23,11 +23,14 @@ import { colors } from "@/lib/constants";
 import { useState } from "react";
 import { createClassroom } from "@/lib/actions";
 import { useToast } from "@/hooks/use-toast";
+import { useAtom } from "jotai";
+import { Classroom, classroomsAtom } from "@/store";
 
 export function CreateClassroom() {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string | undefined>(undefined);
   const [color, setColor] = useState<string | undefined>(undefined);
+  const [classrooms, setClassrooms] = useAtom(classroomsAtom);
 
   const { toast } = useToast();
 
@@ -73,12 +76,20 @@ export function CreateClassroom() {
                   description,
                   themeColor: color,
                 });
-                if (res)
+                if (res) {
+                  const response = await fetch("/api/classroom/all");
+                  if (!response.ok) {
+                    console.log(res);
+                  }
+                  const data = await response.json();
+                  setClassrooms(data);
+
                   toast({
                     title: res.success ? "Success!" : "Error!",
                     description: res.message,
                     variant: res.success ? "default" : "destructive",
                   });
+                }
               }}
             >
               <PlusIcon className="mr-2 h-4 w-4" />

@@ -3,25 +3,14 @@ import { SidebarTrigger } from "@/ui/sidebar";
 import { ClassroomCard } from "./card";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-
-export type Classroom = {
-  classroom: {
-    id: string;
-    name: string;
-    description?: string;
-    themeColor: string;
-    createdBy: {
-      name: string;
-      image: string;
-    };
-    createdAt: string;
-  };
-  joinedAt: string;
-  role: string;
-};
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { classroomsAtom, Classroom } from "@/store";
+import { useAtom } from "jotai";
 
 export default function AllClassroomsPage() {
-  const [classrooms, setClassrooms] = useState<Classroom[]>([]);
+  const { data: session } = useSession()
+  const [classrooms, setClassrooms] = useAtom(classroomsAtom);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -39,6 +28,13 @@ export default function AllClassroomsPage() {
     fetchClassrooms();
   }, []);
 
+  if (!session || !session?.user) {
+    return <div className="h-screen grid place-content-center">
+      <Image src={"/images/gotologin.svg"} alt="goto login" width={400} height={400}/>
+      <p>You are not logged in, please login to access the application</p>
+    </div>
+  }
+
   return (
     <div className="h-screen flex flex-col">
       <header className="p-4 flex items-center gap-4">
@@ -46,7 +42,10 @@ export default function AllClassroomsPage() {
         <span className="text-xl">Classrooms</span>
       </header>
       <div className="h-full flex flex-col md:flex-row md:flex-wrap content-start gap-4 p-4 overflow-y-auto">
-        {loading && <span>Loading...</span>}
+        {loading && <div className="h-screen grid place-content-center">
+          <Image src={"/images/loading.svg"} alt="goto login" width={400} height={400}/>
+          <p>Loading, please wait...</p>
+        </div>}
         {classrooms.map((room: Classroom) => (
           <Link
             key={room.classroom.id}
