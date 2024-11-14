@@ -1,5 +1,5 @@
 "use client";
-import runChat from "./gemini";
+import { runChat } from "@/lib/functions";
 import React, { createContext, useState } from "react";
 
 export const Context = createContext();
