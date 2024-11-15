@@ -30,6 +30,9 @@ import { FileUpload } from "@/ui/file-upload";
 import { useAtom } from "jotai";
 import { AssignmentsAtom, AssignmentType } from "@/store";
 import Image from "next/image";
+import {hasUserSubmittedSolution} from "@/lib/actions";
+import {useSession} from "next-auth/react";
+import {fetchUserRole} from "@/lib/actions";
 
 type User = {
   name: string;
@@ -60,6 +63,10 @@ export function Assignments({ classroomId }: { classroomId: string }) {
   const [file, setFile] = useState<File | null>(null);
   const [assignmentId, setAssignmentId] = useState<string>("");
   const { toast } = useToast();
+  const [role, setRole] = useState<"Teacher" | "Student" | null>(null);
+  const {data: session} = useSession();
+  const [submitted, setSubmitted] = useState<boolean>(false);
+
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -105,8 +112,25 @@ export function Assignments({ classroomId }: { classroomId: string }) {
       setAssignments(data);
     }
 
+    async function userRole() {
+      const role = await fetchUserRole(session?.user?.id as string, classroomId);
+      setRole(role);
+    }
+
+    userRole();
     fetchAssignments();
   }, []);
+
+  useEffect(() => {
+    const userId = session?.user?.id || "";
+    console.log(userId)
+    async function alreadySubmitted() {
+      const ans = await hasUserSubmittedSolution(userId, assignmentId);
+      setSubmitted(ans);
+    }
+
+    alreadySubmitted();
+  }, [assignmentId]);
 
   if (!assignments) {
     return <div className="h-screen grid place-content-center">
@@ -182,9 +206,7 @@ export function Assignments({ classroomId }: { classroomId: string }) {
                       </span>
                       <span>
                         <Label>Solutions</Label>
-                        {assignment?.solutions &&
-                        assignment.solutions.length >= 1 ? (
-                          <div>
+                        { (role === "Teacher" && assignment?.solutions && assignment.solutions.length >= 1) && ( <div>
                             {" "}
                             {assignment.solutions.map((solution) => (
                               <iframe
@@ -195,21 +217,19 @@ export function Assignments({ classroomId }: { classroomId: string }) {
                               />
                             ))}
                           </div>
-                        ) : (
-                          <form onSubmit={handleSubmit}>
-                            <FileUpload
-                              accept=".pdf"
-                              onChange={(f: File) => {
-                                setFile(f);
-                              }}
-                            />
-
-                            <Button type="submit">
-                              <Upload />
-                              Upload
-                            </Button>
-                          </form>
                         )}
+                        {!submitted && (<form onSubmit={handleSubmit}>
+                          <FileUpload
+                          accept=".pdf"
+                          onChange={(f: File) => {
+                          setFile(f);
+                        }}
+                          />
+                          <Button type="submit">
+                          <Upload />
+                          Upload
+                          </Button>
+                          </form>)}
                       </span>
                     </div>
                   </ScrollArea>

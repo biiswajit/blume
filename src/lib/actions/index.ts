@@ -8,3 +8,5 @@ export * from "./joinDiscussion";
 export * from "./fetchDiscussions";
 export * from "./fetchPreviousChats";
 export * from "./sendChat";
+export * from "./fetchUserRole";
+export  * from "./hasUserSubmitedSolution"
