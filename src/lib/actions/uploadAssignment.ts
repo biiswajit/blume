@@ -35,6 +35,20 @@ export async function uploadAssignment(formData: FormData) {
     return { success: false, message: "Invalid assignment data provided" };
   }
 
+  const userInfo = await prisma.enrollment.findFirst({
+    where: {
+      userId: session.user.id,
+      classroomId: classroomId,
+    },
+    select: {
+      role: true,
+    }
+  });
+
+  if (!userInfo || userInfo.role === "Student") {
+    return {success: false, message: "Students are not allowed to uplaod assignemnts"}
+  }
+
   const fileKey = uuidv4();
   const buffer = Buffer.from(await file.arrayBuffer());
 
