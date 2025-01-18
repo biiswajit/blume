@@ -30,9 +30,11 @@ import { FileUpload } from "@/ui/file-upload";
 import { useAtom } from "jotai";
 import { AssignmentsAtom, AssignmentType } from "@/store";
 import Image from "next/image";
-import {hasUserSubmittedSolution} from "@/lib/actions";
-import {useSession} from "next-auth/react";
-import {fetchUserRole} from "@/lib/actions";
+import { hasUserSubmittedSolution } from "@/lib/actions";
+import { useSession } from "next-auth/react";
+import { fetchUserRole } from "@/lib/actions";
+import FeedbackForm from "./feedbackForm";
+import { checkSubmission } from "@/lib/actions";
 
 type User = {
   name: string;
@@ -47,6 +49,7 @@ export type Assignment = {
   id: string;
   createdAt: string;
   file?: string;
+  mark?: number;
   solutions: [
     {
       file: string;
@@ -64,9 +67,32 @@ export function Assignments({ classroomId }: { classroomId: string }) {
   const [assignmentId, setAssignmentId] = useState<string>("");
   const { toast } = useToast();
   const [role, setRole] = useState<"Teacher" | "Student" | null>(null);
-  const {data: session} = useSession();
+  const { data: session } = useSession();
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [solutionInfo, setSolutionInfo] = useState<{
+    file: string | undefined;
+    mark: string | number | null;
+    feedback: string | null;
+  } | null>();
 
+  useEffect(() => {
+    console.log(`here is assignemnt id ${assignmentId} got it`);
+    async function fetchRes() {
+      const res = await checkSubmission(
+        assignmentId,
+        session?.user?.id as string,
+      );
+      if (res.success) {
+        setSubmitted(true);
+        setSolutionInfo(res.data);
+        console.log(solutionInfo);
+      } else {
+        setSubmitted(false);
+      }
+    }
+
+    fetchRes();
+  }, [assignmentId]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -113,7 +139,10 @@ export function Assignments({ classroomId }: { classroomId: string }) {
     }
 
     async function userRole() {
-      const role = await fetchUserRole(session?.user?.id as string, classroomId);
+      const role = await fetchUserRole(
+        session?.user?.id as string,
+        classroomId,
+      );
       setRole(role);
     }
 
@@ -123,7 +152,7 @@ export function Assignments({ classroomId }: { classroomId: string }) {
 
   useEffect(() => {
     const userId = session?.user?.id || "";
-    console.log(userId)
+    console.log(userId);
     async function alreadySubmitted() {
       const ans = await hasUserSubmittedSolution(userId, assignmentId);
       setSubmitted(ans);
@@ -133,10 +162,17 @@ export function Assignments({ classroomId }: { classroomId: string }) {
   }, [assignmentId]);
 
   if (!assignments) {
-    return <div className="h-screen grid place-content-center">
-      <Image src={"/images/loading.svg"} alt="goto login" width={400} height={400}/>
-      <p>You are not logged in, please login to access the application</p>
-    </div>
+    return (
+      <div className="h-screen grid place-content-center">
+        <Image
+          src={"/images/loading.svg"}
+          alt="goto login"
+          width={400}
+          height={400}
+        />
+        <p>You are not logged in, please login to access the application</p>
+      </div>
+    );
   }
 
   return (
@@ -148,6 +184,7 @@ export function Assignments({ classroomId }: { classroomId: string }) {
           <TableHead>Description</TableHead>
           <TableHead>Upload date</TableHead>
           <TableHead>Due date</TableHead>
+          <TableHead>Mark</TableHead>
           <TableHead>View</TableHead>
         </TableRow>
       </TableHeader>
@@ -162,6 +199,7 @@ export function Assignments({ classroomId }: { classroomId: string }) {
             <TableCell className="text-left">
               {parseDate(file.dueDate)}
             </TableCell>
+            <TableCell className="text-left">{file.mark}</TableCell>
             <TableCell className="text-left">
               <Dialog>
                 <DialogTrigger
@@ -197,6 +235,10 @@ export function Assignments({ classroomId }: { classroomId: string }) {
                         </p>
                       </span>
                       <span>
+                        <Label>Assignment Mark</Label>
+                        <p>{assignment?.mark ?? 0}</p>
+                      </span>
+                      <span>
                         <Label>Assignment file</Label>
                         <iframe
                           src={assignment?.file}
@@ -205,31 +247,71 @@ export function Assignments({ classroomId }: { classroomId: string }) {
                         />
                       </span>
                       <span>
+                        <br />
+                        <br />
                         <Label>Solutions</Label>
-                        { (role === "Teacher" && assignment?.solutions && assignment.solutions.length >= 1) && ( <div>
-                            {" "}
-                            {assignment.solutions.map((solution) => (
-                              <iframe
-                                key={solution.id}
-                                src={solution?.file}
-                                title="Assignment file"
-                                className="w-full h-[300px] lg:h-[400px]"
-                              />
-                            ))}
+                        <hr />
+                        {role === "Teacher" &&
+                          assignment?.solutions &&
+                          assignment.solutions.length >= 1 && (
+                            <div>
+                              {" "}
+                              {assignment.solutions.map((solution) => (
+                                <div
+                                  key={solution.id}
+                                  className="my-4 border border-primary p-2"
+                                >
+                                  Sumbitted by: {solution.user?.name}
+                                  <iframe
+                                    src={solution?.file}
+                                    title="Assignment file"
+                                    className="w-full h-[300px] lg:h-[400px]"
+                                  />
+                                  <FeedbackForm
+                                    solutionId={solution.id}
+                                    assignmentMark={assignment.mark + ""}
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        {!submitted && (
+                          <form onSubmit={handleSubmit}>
+                            <FileUpload
+                              accept=".pdf"
+                              onChange={(f: File) => {
+                                setFile(f);
+                              }}
+                            />
+                            <Button type="submit">
+                              <Upload />
+                              Upload
+                            </Button>
+                          </form>
+                        )}
+                        {submitted && role === "Student" && (
+                          <div>
+                            <iframe
+                              src={solutionInfo?.file}
+                              title="Assignment file"
+                              className="w-full h-[300px] lg:h-[400px]"
+                            />
+                            {solutionInfo?.mark && solutionInfo.feedback ? (
+                              <div>
+                                <div>
+                                  <Label>Mark obtained: </Label>
+                                  <p>{solutionInfo.mark}</p>
+                                </div>
+                                <div>
+                                  <Label>Feedback received: </Label>
+                                  <p>{solutionInfo.feedback}</p>
+                                </div>
+                              </div>
+                            ) : (
+                              <p>Your solution yet to be checked!</p>
+                            )}
                           </div>
                         )}
-                        {!submitted && (<form onSubmit={handleSubmit}>
-                          <FileUpload
-                          accept=".pdf"
-                          onChange={(f: File) => {
-                          setFile(f);
-                        }}
-                          />
-                          <Button type="submit">
-                          <Upload />
-                          Upload
-                          </Button>
-                          </form>)}
                       </span>
                     </div>
                   </ScrollArea>

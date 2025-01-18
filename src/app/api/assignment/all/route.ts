@@ -25,6 +25,7 @@ export async function GET(req: NextRequest) {
             description: true,
             id: true,
             createdAt: true,
+            mark: true,
           },
         },
       },

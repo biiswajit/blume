@@ -18,12 +18,22 @@ export async function uploadAssignment(formData: FormData) {
   const file = formData.get("file") as File;
   const dueDate = formData.get("dueDate") as string;
   const classroomId = formData.get("classroomId") as string;
+  let mark: number = 0;
+
+  try {
+    const temp = formData.get("mark") as string | null | undefined;
+    if (temp) mark = parseInt(temp);
+  } catch (e) {
+    console.log(e);
+    return { success: false, message: "Error while uploading assignment" };
+  }
 
   const assignmentData: Record<string, any> = {
     name,
     file,
     dueDate,
     classroomId,
+    mark,
   };
   if (description) {
     assignmentData.description = description;
@@ -42,11 +52,14 @@ export async function uploadAssignment(formData: FormData) {
     },
     select: {
       role: true,
-    }
+    },
   });
 
   if (!userInfo || userInfo.role === "Student") {
-    return {success: false, message: "Students are not allowed to uplaod assignemnts"}
+    return {
+      success: false,
+      message: "Students are not allowed to uplaod assignemnts",
+    };
   }
 
   const fileKey = uuidv4();
@@ -73,6 +86,7 @@ export async function uploadAssignment(formData: FormData) {
         dueDate: new Date(dueDate),
         classroomId: classroomId,
         file: fileUrl,
+        mark: mark,
       },
     });
 

@@ -9,4 +9,7 @@ export * from "./fetchDiscussions";
 export * from "./fetchPreviousChats";
 export * from "./sendChat";
 export * from "./fetchUserRole";
-export  * from "./hasUserSubmitedSolution"
+export * from "./hasUserSubmitedSolution";
+export * from "./sendFeedback";
+export * from "./fetchFeedback";
+export * from "./checkSubmission";

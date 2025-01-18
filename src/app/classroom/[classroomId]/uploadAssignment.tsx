@@ -26,6 +26,7 @@ import { AssignmentType, AssignmentsAtom } from "@/store";
 import { useAtom } from "jotai";
 
 export function UploadAssignment({ classroomId }: { classroomId: string }) {
+  const [mark, setMark] = useState<string>();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -50,12 +51,15 @@ export function UploadAssignment({ classroomId }: { classroomId: string }) {
       formData.append("file", file);
       formData.append("dueDate", date.toISOString().substring(0, 10));
       formData.append("classroomId", classroomId);
+      if (mark) formData.append("mark", mark);
       if (description) formData.append("description", description);
 
       const res = await uploadAssignment(formData);
 
       if (res.success) {
-        const response = await fetch(`/api/assignment/all?classroomId=${classroomId}`);
+        const response = await fetch(
+          `/api/assignment/all?classroomId=${classroomId}`,
+        );
         if (!response.ok) {
           console.log(response);
         }
@@ -129,6 +133,14 @@ export function UploadAssignment({ classroomId }: { classroomId: string }) {
                     />
                   </PopoverContent>
                 </Popover>
+              </span>
+              <span>
+                <Label htmlFor="mark">Mark</Label>
+                <Input
+                  type="number"
+                  value={mark}
+                  onChange={(e) => setMark(e.target.value)}
+                />
               </span>
               <span>
                 <Label htmlFor="file">Picture</Label>

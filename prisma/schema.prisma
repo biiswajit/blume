@@ -112,6 +112,7 @@ model Assignment {
   dueDate     DateTime
   createdAt   DateTime @default(now())
   classroomId String
+  mark        Int?
 
   solutions Solution[]
 
@@ -124,6 +125,8 @@ model Solution {
   createdAt    DateTime @default(now())
   userId       String
   assignmentId String
+  obtainMark   Float? @default(0)
+  feedback     String?
 
   assignment Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)

@@ -16,6 +16,7 @@ export const assignmentSchema = z.object({
     }, "File must be a PDF or DOC"),
   classroomId: z.string(),
   dueDate: z.string().date(),
+  mark: z.number().optional(),
 });
 
 export const solutionSchema = z.object({

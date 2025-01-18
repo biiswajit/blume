@@ -29,6 +29,7 @@ export async function GET(req: NextRequest) {
       createdAt: true,
       file: true,
       classroomId: true,
+      mark: true,
     },
   });
 
@@ -86,6 +87,7 @@ export async function GET(req: NextRequest) {
     dueDate: assignmentMetadata?.dueDate,
     createdAt: assignmentMetadata?.createdAt,
     file: assignmentMetadata?.file,
+    mark: assignmentMetadata?.mark,
     solutions:
       solutions && solutions.solutions
         ? [...solutions.solutions]

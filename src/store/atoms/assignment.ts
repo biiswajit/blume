@@ -6,6 +6,7 @@ export type AssignmentType = {
   dueDate: string;
   id: string;
   createdAt: string;
+  mark?: number;
 };
 
-export const AssignmentsAtom = atom<AssignmentType[]>([])
+export const AssignmentsAtom = atom<AssignmentType[]>([]);
