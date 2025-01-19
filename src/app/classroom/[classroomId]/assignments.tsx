@@ -36,6 +36,12 @@ import { fetchUserRole } from "@/lib/actions";
 import FeedbackForm from "./feedbackForm";
 import { checkSubmission } from "@/lib/actions";
 import { ArrowUpRight } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/ui/accordion";
 
 type User = {
   name: string;
@@ -229,64 +235,82 @@ export function Assignments({ classroomId }: { classroomId: string }) {
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>{`Assignment - ${assignment?.name}`}</DialogTitle>
+                    <DialogTitle className="font-primary font-bold text-primary">{`Assignment - ${assignment?.name}`}</DialogTitle>
                     <DialogDescription className="pb-2">
-                      Due date{" "}
+                      Due date &nbsp; &nbsp;
                       <Badge>{parseDate(assignment?.dueDate as string)}</Badge>
                     </DialogDescription>
                   </DialogHeader>
                   <ScrollArea className="w-full h-[600px]">
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-10">
+                      <div className="flex flex-col gap-2 bg-sidebar">
+                        <span className="p-2">
+                          <Label className="opacity-70">
+                            Assignment description
+                          </Label>
+                          <p className="px-2">
+                            {assignment?.description ??
+                              "No assignment description provided"}
+                          </p>
+                        </span>
+                        <span className="p-2">
+                          <Label className="opacity-70">Assignment Mark</Label>
+                          <p className="px-2">{assignment?.mark ?? 0}</p>
+                        </span>
+                        <span className="p-2">
+                          <Label className="opacity-70">Assignment file</Label>
+                          <iframe
+                            src={assignment?.file}
+                            title="Assignment file"
+                            className="w-full h-[300px] lg:h-[400px] px-2"
+                          />
+                        </span>
+                      </div>
+
+                      <div className="my-2 flex flex-shrink items-center justify-center gap-2">
+                        <div className="grow basis-0 border-b" />
+                        <span className="text-lg text-primary font-primary font-bold uppercase leading-none">
+                          Solutions
+                        </span>
+                        <div className="grow basis-0 border-b" />
+                      </div>
+
                       <span>
-                        <Label>Assignment description</Label>
-                        <p>
-                          {assignment?.description ??
-                            "No assignment description provided"}
-                        </p>
-                      </span>
-                      <span>
-                        <Label>Assignment Mark</Label>
-                        <p>{assignment?.mark ?? 0}</p>
-                      </span>
-                      <span>
-                        <Label>Assignment file</Label>
-                        <iframe
-                          src={assignment?.file}
-                          title="Assignment file"
-                          className="w-full h-[300px] lg:h-[400px]"
-                        />
-                      </span>
-                      <span>
-                        <br />
-                        <br />
-                        <Label>Solutions</Label>
-                        <hr />
                         {role === "Teacher" &&
                           assignment?.solutions &&
                           assignment.solutions.length >= 1 && (
-                            <div>
+                            <Accordion type="single" collapsible>
                               {" "}
                               {assignment.solutions.map((solution) => (
-                                <div
+                                <AccordionItem
                                   key={solution.id}
-                                  className="my-4 border border-primary p-2"
+                                  value={solution.id}
+                                  className="bg-sidebar my-4 p-2 rounded-sm"
                                 >
-                                  Sumbitted by: {solution.user?.name}
-                                  <iframe
-                                    src={solution?.file}
-                                    title="Assignment file"
-                                    className="w-full h-[300px] lg:h-[400px]"
-                                  />
-                                  <FeedbackForm
-                                    solutionId={solution.id}
-                                    assignmentMark={assignment.mark + ""}
-                                  />
-                                </div>
+                                  <AccordionTrigger className="font-primary font-bold text-[16px]">
+                                    {solution.user?.name},{" "}
+                                    {solution.user?.email}
+                                  </AccordionTrigger>
+                                  <AccordionContent>
+                                    <iframe
+                                      src={solution?.file}
+                                      title="Assignment file"
+                                      className="w-full h-[300px] lg:h-[400px]"
+                                    />
+                                    <FeedbackForm
+                                      solutionId={solution.id}
+                                      assignmentMark={assignment.mark + ""}
+                                    />
+                                  </AccordionContent>
+                                </AccordionItem>
                               ))}
-                            </div>
+                            </Accordion>
                           )}
                         {!submitted && (
-                          <form onSubmit={handleSubmit}>
+                          <form
+                            onSubmit={handleSubmit}
+                            className="flex flex-col gap-4"
+                          >
                             <FileUpload
                               accept=".pdf"
                               onChange={(f: File) => {
@@ -300,21 +324,27 @@ export function Assignments({ classroomId }: { classroomId: string }) {
                           </form>
                         )}
                         {submitted && role === "Student" && (
-                          <div>
+                          <div className="flex flex-col bg-sidebar gap-4 p-2 rounded-sm">
                             <iframe
                               src={solutionInfo?.file}
                               title="Assignment file"
                               className="w-full h-[300px] lg:h-[400px]"
                             />
                             {solutionInfo?.mark && solutionInfo.feedback ? (
-                              <div>
+                              <div className="flex flex-col gap-4">
                                 <div>
-                                  <Label>Mark obtained: </Label>
-                                  <p>{solutionInfo.mark}</p>
+                                  <Label className="opacity-70">
+                                    Mark obtained{" "}
+                                  </Label>
+                                  <p className="pl-2">{solutionInfo.mark}</p>
                                 </div>
                                 <div>
-                                  <Label>Feedback received: </Label>
-                                  <p>{solutionInfo.feedback}</p>
+                                  <Label className="opacity-70">
+                                    Feedback received{" "}
+                                  </Label>
+                                  <p className="pl-2">
+                                    {solutionInfo.feedback}
+                                  </p>
                                 </div>
                               </div>
                             ) : (

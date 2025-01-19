@@ -31,17 +31,25 @@ export default function FeedbackForm({
   }, []);
 
   return (
-    <div>
-      <Label htmlFor="obtainMark">Mark</Label>
-      <Input
-        value={mark}
-        type="number"
-        placeholder="obtained mark"
-        onChange={(e) => setMark(e.target.value)}
-      />
+    <div className="flex flex-col gap-3 mt-3">
+      <div>
+        <Label htmlFor="obtainMark" className="opacity-70">
+          Mark
+        </Label>
+        <Input
+          className="bg-sidebar-accent border border-primary"
+          value={mark}
+          type="number"
+          placeholder="obtained mark"
+          onChange={(e) => setMark(e.target.value)}
+        />
+      </div>
       <div className="grid w-full gap-1.5">
-        <Label htmlFor="message">Your Feedback</Label>
+        <Label htmlFor="message" className="opacity-70">
+          Your Feedback
+        </Label>
         <Textarea
+          className="bg-sidebar-accent border border-primary"
           value={feedback}
           placeholder="Type your feedback here."
           id="message"
