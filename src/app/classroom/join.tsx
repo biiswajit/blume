@@ -28,11 +28,17 @@ export function JoinClassroom() {
       <DialogTrigger>Join Classroom</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Join an existing classroom</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="font-primary font-bold mb-4">
+            Join an existing classroom
+          </DialogTitle>
+          <DialogDescription className="flex flex-col gap-4">
             {/* TODO: support for sharable link */}
             <Label htmlFor="code">Classroom code</Label>
-            <Input value={code} onChange={(e) => setCode(e.target.value)} />
+            <Input
+              className="bg-sidebar"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+            />
             <Button
               variant="default"
               onClick={async () => {

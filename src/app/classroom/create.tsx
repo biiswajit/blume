@@ -39,15 +39,21 @@ export function CreateClassroom() {
       <DialogTrigger>Create Classroom</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create a classroom</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="font-primary font-bold mb-4">
+            Create a classroom
+          </DialogTitle>
+          <DialogDescription className="flex flex-col gap-4">
             <span>
               <Label htmlFor="name">Classroom name</Label>
-              <Input onChange={(e) => setName(e.target.value)} />
+              <Input
+                className="bg-sidebar"
+                onChange={(e) => setName(e.target.value)}
+              />
             </span>
             <span>
               <Label htmlFor="description">Classroom description</Label>
               <Textarea
+                className="bg-sidebar"
                 placeholder="Type your message here."
                 id="message-2"
                 onChange={(e) => setDescription(e.target.value)}
@@ -56,7 +62,7 @@ export function CreateClassroom() {
             <span>
               <Label htmlFor="color">Classroom theme</Label>
               <Select onValueChange={(value) => setColor(value)}>
-                <SelectTrigger>
+                <SelectTrigger className="bg-sidebar">
                   <SelectValue placeholder="Theme" />
                 </SelectTrigger>
                 <SelectContent onChange={(e) => e.target}>

@@ -233,7 +233,7 @@ export function Assignments({ classroomId }: { classroomId: string }) {
                     <ArrowUpRight />
                   </div>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="h-[94%]">
                   <DialogHeader>
                     <DialogTitle className="font-primary font-bold text-primary">{`Assignment - ${assignment?.name}`}</DialogTitle>
                     <DialogDescription className="pb-2">
@@ -241,7 +241,7 @@ export function Assignments({ classroomId }: { classroomId: string }) {
                       <Badge>{parseDate(assignment?.dueDate as string)}</Badge>
                     </DialogDescription>
                   </DialogHeader>
-                  <ScrollArea className="w-full h-[600px]">
+                  <ScrollArea className="w-full h-[700px]">
                     <div className="flex flex-col gap-10">
                       <div className="flex flex-col gap-2 bg-sidebar">
                         <span className="p-2">
