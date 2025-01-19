@@ -99,14 +99,12 @@ export default function ClassroomPage({
         <Tabs defaultValue="account" className="w-full text-center">
           <TabsList>
             <TabsTrigger value="announcements">Announcements</TabsTrigger>
-            <TabsTrigger value="notes">Notes</TabsTrigger>
             <TabsTrigger value="assignments">Assignments</TabsTrigger>
             <TabsTrigger value="friends">Members</TabsTrigger>
             <TabsTrigger value="discussions">Discussions</TabsTrigger>
             <TabsTrigger value="chatbot">Chatbot</TabsTrigger>
           </TabsList>
           <TabsContent value="announcements">Announcements</TabsContent>
-          <TabsContent value="notes">Notes</TabsContent>
           <TabsContent value="assignments" className="flex flex-col gap-8 pt-2">
             <Button className="w-fit m-auto">
               <Upload />

@@ -39,11 +39,6 @@ const data = {
       title: UploadAssignment,
       icon: Upload,
     },
-    {
-      title: "Video Call",
-      icon: LogIn,
-      url: "/classroom/video-call",
-    },
   ],
   navSecondary: null,
 };
