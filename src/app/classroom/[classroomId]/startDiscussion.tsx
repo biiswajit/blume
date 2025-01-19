@@ -47,8 +47,14 @@ export function StartDiscussion({ classroomId }: { classroomId: string }) {
     });
   }
   return (
-    <form onSubmit={handleSubmit}>
-      <Input type="text" name="discussionName" required />
+    <form onSubmit={handleSubmit} className="flex flex-row gap-3">
+      <Input
+        className="bg-sidebar-accent lg:w-72"
+        type="text"
+        name="discussionName"
+        required
+        placeholder="Give a name to your new discussion"
+      />
       <Button type="submit" variant="default">
         <PlusIcon className="mr-2 h-4 w-4" />
         Create

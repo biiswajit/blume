@@ -13,6 +13,7 @@ import { JoinClassroom } from "../join";
 import { Discussions } from "./discussions";
 import { GeminiBody } from "./GeminiBody";
 import Image from "next/image";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/ui/hover-card";
 
 export type ClassroomType = {
   name: string;
@@ -59,10 +60,17 @@ export default function ClassroomPage({
   }, []);
 
   if (!classroom) {
-    return <div className="h-screen grid place-content-center">
-      <Image src={"/images/loading.svg"} alt="goto login" width={400} height={400}/>
-      <p>Loding, please wait...</p>
-    </div>
+    return (
+      <div className="h-screen grid place-content-center">
+        <Image
+          src={"/images/loading.svg"}
+          alt="goto login"
+          width={400}
+          height={400}
+        />
+        <p>Loding, please wait...</p>
+      </div>
+    );
   }
 
   return (
@@ -70,9 +78,24 @@ export default function ClassroomPage({
       <header className="p-4 flex items-center gap-4">
         <SidebarTrigger />
         <span className="text-xl">{classroom.name}</span>
+        <span className="fixed right-10">
+          <HoverCard>
+            <HoverCardTrigger className="font-primary font-bold">
+              Classroom code
+            </HoverCardTrigger>
+            <HoverCardContent>
+              <p className="font-primary text-sm">
+                Here is the classroom code that you can send to anyone to join
+              </p>
+              <br />
+              <p className="font-primary text-lg font-bold text-primary">
+                {classroom.code}
+              </p>
+            </HoverCardContent>
+          </HoverCard>
+        </span>
       </header>
       <div className="h-full p-4">
-        {classroom.code}
         <Tabs defaultValue="account" className="w-full text-center">
           <TabsList>
             <TabsTrigger value="announcements">Announcements</TabsTrigger>
@@ -95,8 +118,10 @@ export default function ClassroomPage({
             <Members members={classroom.enrollments} />
           </TabsContent>
           <TabsContent value="discussions">
-            <StartDiscussion classroomId={params.classroomId} />
-            <JoinDiscussion classroomId={params.classroomId} />
+            <div className="flex flex-col lg:flex-row justify-center gap-2 lg:gap-36 my-4">
+              <StartDiscussion classroomId={params.classroomId} />
+              <JoinDiscussion classroomId={params.classroomId} />
+            </div>
             <Discussions classroomId={params.classroomId} />
           </TabsContent>
           <TabsContent value="chatbot">

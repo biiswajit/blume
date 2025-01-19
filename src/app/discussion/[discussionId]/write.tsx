@@ -40,7 +40,12 @@ export function Write({
 
   return (
     <form onSubmit={handleSubmit} className="flex gap-4 lg:w-[500px] lg:m-auto">
-      <Input type="text" name="message" required className="bg-sidebar" />
+      <Input
+        type="text"
+        name="message"
+        required
+        className="bg-sidebar-accent"
+      />
       <Button type="submit">
         <SendIcon className="mr-2 h-4 w-4" />
         Send

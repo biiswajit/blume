@@ -41,8 +41,14 @@ export function JoinDiscussion({ classroomId }: { classroomId: string }) {
     });
   }
   return (
-    <form onSubmit={handleSubmit}>
-      <Input type="text" name="discussionCode" required />
+    <form onSubmit={handleSubmit} className="flex flex-row gap-3">
+      <Input
+        className="bg-sidebar-accent"
+        type="text"
+        name="discussionCode"
+        placeholder="Enter discussion code to join"
+        required
+      />
       <Button type="submit" variant="default">
         <EnterIcon className="mr-2 h-4 w-4" />
         Join
