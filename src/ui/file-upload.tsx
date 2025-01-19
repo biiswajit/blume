@@ -54,12 +54,12 @@ export const FileUpload = ({
   });
 
   return (
-    <div className="w-full max-w-4xl mx-auto min-h-96 border border-dashed bg-background border-neutral-200 dark:border-neutral-800 rounded-lg">
+    <div className="max-w-4xl mx-auto min-h-64 border border-dashed bg-background border-neutral-200 dark:border-neutral-800 rounded-lg w-full">
       <div className="w-full" {...getRootProps()}>
         <motion.div
           onClick={handleClick}
           whileHover="animate"
-          className="p-10 group/file block rounded-lg cursor-pointer w-full relative overflow-hidden"
+          className="p-4 group/file block rounded-lg cursor-pointer w-full relative overflow-hidden"
         >
           <input
             ref={fileInputRef}
@@ -80,7 +80,7 @@ export const FileUpload = ({
               Drag or drop your files here or click to upload
             </p>
           </div>
-          <div className="relative w-full mt-10 max-w-xl mx-auto">
+          <div className="relative w-full mt-5 max-w-xl mx-auto">
             {!file && (
               <motion.div
                 layoutId="file-upload"

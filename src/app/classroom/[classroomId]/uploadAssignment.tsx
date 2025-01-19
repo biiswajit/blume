@@ -87,12 +87,15 @@ export function UploadAssignment({ classroomId }: { classroomId: string }) {
       <DialogTrigger>Upload Assignment</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Upload an assignment</DialogTitle>
+          <DialogTitle className="font-primary font-bold text-primary">
+            Upload an assignment
+          </DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <span>
                 <Label htmlFor="name">Assignment name</Label>
                 <Input
+                  className="bg-sidebar-accent text-primary"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -103,6 +106,7 @@ export function UploadAssignment({ classroomId }: { classroomId: string }) {
                   Description about assignment
                 </Label>
                 <Textarea
+                  className="bg-sidebar-accent text-primary"
                   placeholder="Type your description here."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
@@ -115,7 +119,7 @@ export function UploadAssignment({ classroomId }: { classroomId: string }) {
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "justify-start text-left font-normal",
+                        "justify-start text-left font-normal bg-sidebar-accent text-primary",
                         !date && "text-muted-foreground",
                       )}
                     >
@@ -137,13 +141,14 @@ export function UploadAssignment({ classroomId }: { classroomId: string }) {
               <span>
                 <Label htmlFor="mark">Mark</Label>
                 <Input
+                  className="bg-sidebar-accent text-primary"
                   type="number"
                   value={mark}
                   onChange={(e) => setMark(e.target.value)}
                 />
               </span>
               <span>
-                <Label htmlFor="file">Picture</Label>
+                <Label htmlFor="file">Assignment file</Label>
                 <FileUpload
                   accept=".pdf, .doc"
                   onChange={(file: File) => {
