@@ -37,7 +37,7 @@ export default function FeedbackForm({
           Mark
         </Label>
         <Input
-          className="bg-sidebar-accent border border-primary"
+          className="bg-sidebar-accent"
           value={mark}
           type="number"
           placeholder="obtained mark"
@@ -49,7 +49,7 @@ export default function FeedbackForm({
           Your Feedback
         </Label>
         <Textarea
-          className="bg-sidebar-accent border border-primary"
+          className="bg-sidebar-accent "
           value={feedback}
           placeholder="Type your feedback here."
           id="message"
