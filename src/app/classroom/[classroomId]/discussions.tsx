@@ -72,7 +72,7 @@ export function Discussions({ classroomId }: { classroomId: string }) {
             <TableCell className="text-left font-primary">
               {discussion.code}
             </TableCell>
-            <TableCell className="right-0 font-primary font-bold text-primary">
+            <TableCell className="right-0 font-primary text-blume-blue-100 font-bold underline underline-offset-4">
               <Link href={`/discussion/${discussion.discussionId}`}>
                 <div className="flex flex-row">
                   <span>Open</span>

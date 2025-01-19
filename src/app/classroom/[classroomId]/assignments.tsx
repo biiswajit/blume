@@ -35,6 +35,7 @@ import { useSession } from "next-auth/react";
 import { fetchUserRole } from "@/lib/actions";
 import FeedbackForm from "./feedbackForm";
 import { checkSubmission } from "@/lib/actions";
+import { ArrowUpRight } from "lucide-react";
 
 type User = {
   name: string;
@@ -178,32 +179,38 @@ export function Assignments({ classroomId }: { classroomId: string }) {
   return (
     <Table>
       <TableCaption>List of assignments</TableCaption>
-      <TableHeader>
+      <TableHeader className="bg-sidebar font-primary font-bold text-lg border-b-2 border-primary">
         <TableRow>
           <TableHead>Name</TableHead>
           <TableHead>Description</TableHead>
-          <TableHead>Upload date</TableHead>
-          <TableHead>Due date</TableHead>
-          <TableHead>Mark</TableHead>
+          <TableHead className="text-right">Upload date</TableHead>
+          <TableHead className="text-right">Due date</TableHead>
+          <TableHead className="text-right">Mark</TableHead>
           <TableHead>View</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {assignments.map((file: AssignmentType) => (
           <TableRow key={file.id}>
-            <TableCell className="font-medium text-left">{file.name}</TableCell>
-            <TableCell className="text-left">{file.description}</TableCell>
-            <TableCell className="text-left">
+            <TableCell className="font-primary text-left">
+              {file.name}
+            </TableCell>
+            <TableCell className="text-left font-primary">
+              {file.description}
+            </TableCell>
+            <TableCell className="text-right font-primary">
               {parseDate(file.createdAt)}
             </TableCell>
-            <TableCell className="text-left">
+            <TableCell className="text-right font-primary">
               {parseDate(file.dueDate)}
             </TableCell>
-            <TableCell className="text-left">{file.mark}</TableCell>
+            <TableCell className="text-right font-primary">
+              {file.mark}
+            </TableCell>
             <TableCell className="text-left">
               <Dialog>
                 <DialogTrigger
-                  className="underline underline-offset-4 text-blume-blue-100"
+                  className="underline underline-offset-4 text-blume-blue-100 font-bold font-primary"
                   onClick={async () => {
                     const res = await fetch(`/api/assignment?id=${file.id}`);
                     if (!res.ok) {
@@ -215,7 +222,10 @@ export function Assignments({ classroomId }: { classroomId: string }) {
                     setAssignmentId(data.id);
                   }}
                 >
-                  Open
+                  <div className="flex flex-row">
+                    <span>Open</span>
+                    <ArrowUpRight />
+                  </div>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
