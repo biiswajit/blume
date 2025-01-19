@@ -48,19 +48,17 @@ export function Chats({
   }
 
   return (
-    <ScrollArea className="h-full w-full rounded-md border py-4 px-6">
+    <ScrollArea className="h-full w-full rounded-md border py-4 px-6 bg-sidebar">
       {chats.map((chat) => (
         <div
           key={chat.chatId}
-          className={`max-w-[500px] w-fit border flex flex-col gap-1 py-1 px-4 mt-2 rounded-md ${chat.userId === userId ? "justify-self-end" : "justify-self-start"}`}
+          className={`max-w-[500px] w-fit border flex flex-col gap-1 py-1 px-5 mt-2 rounded-3xl bg-primary opacity-70 ${chat.userId === userId ? "justify-self-end" : "justify-self-start"}`}
         >
-          <div className="w-full font-semibold">{chat.message}</div>
-          <div className="flex justify-between w-full font-light text-sm opacity-70 gap-5">
+          <div className="w-full text-primary-foreground opacity-100 font-primary font-bold">
+            {chat.message}
+          </div>
+          <div className="flex justify-between w-full font-normal text-xs opacity-70 gap-5 text-primary-foreground">
             <span>{chat.userName}</span>
-            <div className="flex gap-2 items-center">
-              <ThumbsUp className="w-4" />
-              <span>{chat.upvotes}</span>
-            </div>
           </div>
         </div>
       ))}
